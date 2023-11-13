@@ -1,49 +1,25 @@
-import boto3
-import os
+from user.models import *
+from article.models import *
+from exam.models import *
 
-region = 'us-east-1'
-aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
-aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+UserModel.create_table(read_capacity_units=5, write_capacity_units=1)
+Doctor.create_table(read_capacity_units=5, write_capacity_units=1)
+Customer.create_table(read_capacity_units=5, write_capacity_units=1)
+Admin.create_table(read_capacity_units=5, write_capacity_units=1)
+
+Article.create_table(read_capacity_units=10, write_capacity_units=1)
+Tag.create_table(read_capacity_units=10, write_capacity_units=1)
+
+Appointment.create_table(read_capacity_units=10, write_capacity_units=1)
+PaymentMethod.create_table(read_capacity_units=10, write_capacity_units=1)
 
 
-def create_table(ddb, table_name, key_attribute, read_capacity, write_capacity):
-    return ddb.create_table(
-        TableName=table_name,
-        KeySchema=[{'AttributeName': key_attribute, 'KeyType': 'HASH'}],
-        AttributeDefinitions=[{'AttributeName': key_attribute, 'AttributeType': 'S'}],
-        ProvisionedThroughput={'ReadCapacityUnits': read_capacity, 'WriteCapacityUnits': write_capacity}
-    )
+# test database created
+from pynamodb.connection import Connection
 
-def show_all_tables(ddb):
-    return [table.name for table in ddb.tables.all()]
+# Connect to DynamoDB
+conn = Connection(host="http://localhost:8000")
 
-def show_all_items(ddb, table_name):
-    table = ddb.Table(table_name)
-    items = table.scan()['Items']
-    for item in items:
-        print(item)
-
-def delete_table(ddb, table_name):
-    table = ddb.Table(table_name)
-    if table.name in show_all_tables(ddb):
-        table.delete()
-        table.wait_until_not_exists()
-        print(f"Deleted table: {table_name}")
-    else:
-        print(f"Table {table_name} does not exist")
-
-def main():
-    ddb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name=region, aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
-
-    create_table(ddb, 'Article', 'article_id', 10, 10)
-    create_table(ddb, 'Tag', 'tag_id', 10, 10)
-    create_table(ddb, 'Doctor', 'user_id', 10, 10)
-    create_table(ddb, 'Customer', 'user_id', 10, 10)
-    create_table(ddb, 'Admin', 'user_id', 10, 10)
-    create_table(ddb, 'Appointment', 'appointment_id', 10, 10)
-    create_table(ddb, 'PaymentMethod', 'payment_method_id', 10, 10)
-
-    show_all_tables(ddb)
-
-if __name__ == "__main__":
-    main()
+# List all tables
+tables = conn.list_tables()
+print("Tables:", tables)
