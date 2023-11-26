@@ -15,7 +15,7 @@ REGION = us-east-1
 DYNAMODB_HOST = http://localhost:8000
 ```
 
-Run Django to create tables in DynamoDB with Python 3.10.0:=4
+Run Django to create tables in DynamoDB with Python 3.10.0:
 ```powershell
 python3 -m pip install -r requirements.txt
 python3 .\dynamodb_migrator.py
