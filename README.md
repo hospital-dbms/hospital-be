@@ -21,3 +21,7 @@ python3 -m pip install -r requirements.txt
 python3 .\dynamodb_migrator.py
 ```
 
+Run Django server:
+```powershell
+python3 .\manage.py runserver
+```
