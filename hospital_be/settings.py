@@ -73,7 +73,14 @@ WSGI_APPLICATION = 'hospital_be.wsgi.application'
 
 DB_ENDPOINT='http://localhost:8000'
 DB_TABLE='mytable'
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'pynamodb',
+#         'HOST': 'http://localhost:8000',  # DynamoDB local endpoint
+#         'PORT': 8000,  # DynamoDB local endpoint port
+#         'REGION': 'local',  # Use a specific value for local DynamoDB
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

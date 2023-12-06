@@ -1,19 +1,24 @@
 import os
+import django
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'hospital_be.settings'  # replace 'myproject.settings' with your actual settings module
+django.setup()
+
 from pynamodb.models import Model
 from pynamodb.attributes import *
 from dotenv import load_dotenv
+from pynamodb.attributes import UnicodeAttribute, BooleanAttribute, UTCDateTimeAttribute
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 load_dotenv()
 
 class UserModel(Model):
     class Meta:
-        table_name = "user"
-        host = os.environ.get('DYNAMODB_HOST')
+        table_name = 'user'  # replace with your DynamoDB table name
 
-    id = UnicodeAttribute(hash_key=True)
-    email = UnicodeAttribute(null=True)
-    first_name = UnicodeAttribute(null=True)
-    last_name = UnicodeAttribute(null=True)
+    username = UnicodeAttribute(hash_key=True)
+    password = UnicodeAttribute()
+    is_staff = BooleanAttribute(default=False)
 
 class Doctor(UserModel):
     class Meta:
