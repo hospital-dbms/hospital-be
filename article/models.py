@@ -9,7 +9,9 @@ class Article(Model):
     class Meta:
         table_name = "article"
         host = os.environ.get('DYNAMODB_HOST')
-    title = UnicodeAttribute(hash_key=True)
+    id = NumberAttribute(hash_key=True)
+    title = UnicodeAttribute(null=False)
+    tag = UnicodeAttribute(null=True)
     content = UnicodeAttribute(null=True)
 
 class Tag(Model):
