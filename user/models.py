@@ -14,26 +14,27 @@ load_dotenv()
 
 class UserModel(Model):
     class Meta:
-        table_name = 'user'  # replace with your DynamoDB table name
+        table_name = 'user'  
+        host = os.environ.get('DYNAMODB_HOST')
 
     username = UnicodeAttribute(hash_key=True)
     password = UnicodeAttribute()
     is_staff = BooleanAttribute(default=False)
 
-class Doctor(UserModel):
-    class Meta:
-        table_name = "doctor"
-        host = os.environ.get('DYNAMODB_HOST')
+# class Doctor(UserModel):
+#     class Meta:
+#         table_name = "doctor"
+#         host = os.environ.get('DYNAMODB_HOST')
 
-class Customer(UserModel):
-    class Meta:
-        table_name = "customer"
-        host = os.environ.get('DYNAMODB_HOST')
+# class Customer(UserModel):
+#     class Meta:
+#         table_name = "customer"
+#         host = os.environ.get('DYNAMODB_HOST')
 
-class Admin(UserModel):
-    class Meta:
-        table_name = "admin"
-        host = os.environ.get('DYNAMODB_HOST')
+# class Admin(UserModel):
+#     class Meta:
+#         table_name = "admin"
+#         host = os.environ.get('DYNAMODB_HOST')
 
 
 
