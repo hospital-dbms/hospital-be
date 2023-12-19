@@ -6,9 +6,30 @@ from .serializers import *
 from django.http import Http404, JsonResponse
 
 class AppointmentAPIView(APIView):
-    def get(self, request):
+    def get(self, request, pk=None):
+        if pk:
+            # If a specific appointment ID is provided, retrieve that appointment
+            try:
+                appointment = Appointment.get(hash_key=pk)
+                serializer = AppointmentSerializer(appointments, many = True)
+
+                return Response(serializer.data)
+            except Appointment.DoesNotExist:
+                raise Http404("Appointment does not exist")
+
+        # If no appointment ID is provided, check if a phone number is provided in the query parameters
+        doctor = request.query_params.get('doctor', None)
+        if doctor:
+            # Query appointments by phone number
+            print('doctor', doctor)
+            appointments = Appointment.scan(Appointment.doctor==int(doctor))
+            print('appointment',appointments)
+            serializer = AppointmentSerializer(appointments, many = True)
+            return Response(serializer.data)
+        
+        # If no specific parameters are provided, return all appointments
         appointments = Appointment.scan()
-        serializer = AppointmentSerializer(appointments, many=True)
+        serializer = AppointmentSerializer(appointments, many = True)
         return Response(serializer.data)
 
     def post(self, request):
