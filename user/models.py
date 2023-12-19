@@ -17,7 +17,8 @@ class UserModel(Model):
         table_name = 'user'  
         host = os.environ.get('DYNAMODB_HOST')
 
-    username = UnicodeAttribute(hash_key=True)
+    id = NumberAttribute(hash_key=True)
+    username = UnicodeAttribute()
     name = UnicodeAttribute()
     phoneNumber= UnicodeAttribute()
     password = UnicodeAttribute()

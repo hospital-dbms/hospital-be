@@ -3,6 +3,7 @@ from .models import *
 
 
 class UserSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     username = serializers.CharField()
     name = serializers.CharField()
     phoneNumber = serializers.CharField()
