@@ -24,7 +24,12 @@ class RegisterAPIView(APIView):
         users = UserModel.scan(UserModel.is_staff == True)
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
-    
+
+class DoctorAPI(APIView):
+    def get(self, request):
+        users = UserModel.scan(UserModel.is_staff == True)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
 
 class LoginAPIView(APIView):
     def post(self, request):
