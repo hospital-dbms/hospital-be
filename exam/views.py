@@ -6,8 +6,12 @@ from .serializers import *
 from django.http import Http404, JsonResponse
 
 class AppointmentAPIView(APIView):
-    def get(self, request):
-        appointments = Appointment.scan()
+    def get(self, request, phoneNumber=None):
+        if not phoneNumber:
+            appointments = Appointment.scan()
+        else:
+            appointments = Appointment.scan(Appointment.phoneNumber == phoneNumber)
+
         serializer = AppointmentSerializer(appointments, many=True)
         return Response(serializer.data)
 

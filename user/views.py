@@ -19,6 +19,12 @@ class RegisterAPIView(APIView):
             user.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        users = UserModel.scan(UserModel.is_staff == True)
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    
 
 class LoginAPIView(APIView):
     def post(self, request):
@@ -30,3 +36,4 @@ class LoginAPIView(APIView):
                 login(request, user)
                 return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
         return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED, content_type='application/json')
+    
