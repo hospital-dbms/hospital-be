@@ -4,19 +4,28 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 from django.http import Http404, JsonResponse
+from user.models import UserModel
 
 class AppointmentAPIView(APIView):
     def get(self, request, phoneNumber=None):
-        doctor = request.query_params.get('doctor', None)
-        if doctor:
-            appointments = Appointment.scan(Appointment.doctor == int(doctor))
-        elif not phoneNumber:
+        if not phoneNumber:
             appointments = Appointment.scan()
         else:
             appointments = Appointment.scan(Appointment.phoneNumber == phoneNumber)
 
-        serializer = AppointmentSerializer(appointments, many=True)
-        return Response(serializer.data)
+        result_list = []
+
+        for appointment in appointments:
+            doctor_id = appointment.doctor
+            user = UserModel.get(doctor_id)
+
+            if user:
+                # Step 4: Combine the results
+                result = dict(appointment.attribute_values)
+                result['doctor_name'] = user.name
+                result_list.append(result)
+
+        return Response(result_list)
 
     def post(self, request):
         serializer = AppointmentSerializer(data=request.data)
