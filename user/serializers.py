@@ -5,7 +5,7 @@ from .models import *
 class UserSerializer(serializers.Serializer):
     username = serializers.CharField()
     name = serializers.CharField()
-    phone = serializers.CharField()
+    phoneNumber = serializers.CharField()
     password = serializers.CharField(allow_null=False)
     is_staff = serializers.BooleanField(allow_null=False)
 

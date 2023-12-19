@@ -10,9 +10,12 @@ class Appointment(Model):
         table_name = "appointment"
         host = os.environ.get('DYNAMODB_HOST')
     id = NumberAttribute(hash_key=True)
+    userName = UnicodeAttribute(null=True)
+    gender = UnicodeAttribute(null=True)
     date = UTCDateTimeAttribute(null=True)
-    customer = NumberAttribute(null=True)
+    phoneNumber = UnicodeAttribute(null=True)
     doctor = NumberAttribute(null=True)
+    status = UnicodeAttribute(null=True)
     
 class PaymentMethod(Model):
     class Meta:

@@ -19,7 +19,7 @@ class UserModel(Model):
 
     username = UnicodeAttribute(hash_key=True)
     name = UnicodeAttribute()
-    phone = UnicodeAttribute()
+    phoneNumber= UnicodeAttribute()
     password = UnicodeAttribute()
     is_staff = BooleanAttribute(default=False)
 
