@@ -18,6 +18,8 @@ class UserModel(Model):
         host = os.environ.get('DYNAMODB_HOST')
 
     username = UnicodeAttribute(hash_key=True)
+    name = UnicodeAttribute()
+    phone = UnicodeAttribute()
     password = UnicodeAttribute()
     is_staff = BooleanAttribute(default=False)
 
