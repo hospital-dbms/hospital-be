@@ -8,7 +8,11 @@ from user.models import UserModel
 
 class AppointmentAPIView(APIView):
     def get(self, request, phoneNumber=None):
-        if not phoneNumber:
+
+        doctor = request.query_params.get('doctor', None)
+        if doctor:
+            appointments = Appointment.scan(Appointment.doctor == int(doctor))
+        elif not phoneNumber:
             appointments = Appointment.scan()
         else:
             appointments = Appointment.scan(Appointment.phoneNumber == phoneNumber)
